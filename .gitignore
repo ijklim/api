@@ -1,0 +1,9 @@
+.*
+.*/
+error_log*
+vendor/
+*.lock
+
+!.gitignore
+!.htaccess
+!.env.example

@@ -1,0 +1,32 @@
+# FilesMatch syntax http://www.askapache.com/htaccess/using-filesmatch-and-files-in-htaccess.html
+# ^ = Starts with
+# $ = Ends with
+# <FilesMatch "\.(htm|html|css|js|php)$">, any file ending with ...
+# <FilesMatch "^(admin|staff)\.php$">, start with admin or staff and end in .php
+
+# Forbid directory viewing
+Options -Indexes
+
+# http://css-tricks.com/snippets/htaccess/remove-file-extention-from-urls/
+RewriteEngine on
+# Always https, http://stackoverflow.com/questions/4398951/force-ssl-https-using-htaccess-and-mod-rewrite
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# http://www.prestashop.com/forums/topic/74847-solved-how-to-enable-gzip-with-godaddy/
+<IfModule mod_deflate.c>
+<IfModule mod_filter.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</IfModule>
+</IfModule>
+
+# Set TimeZone to Eastern
+<IfModule php5_module>
+php_value date.timezone "America/New_York"
+</IfModule>
+
+# Prevent env file from being read
+<Files *.env>
+  Order allow,deny
+  Deny from all
+</Files>
