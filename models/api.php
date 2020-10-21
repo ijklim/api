@@ -9,12 +9,17 @@ class Api
     const KEY_TYPES = [
         'dictionary' => 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/{$word}?key={API_KEY}',
         'thesaurus' => 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/{$word}?key={API_KEY}',
-        '-' => '',
     ];
 
     private $keyType = null;
     private $url = null;
 
+    /**
+     * Constructor, set attributes $keyType, $url
+     *
+     * @param  string $attribute
+     * @return bool
+     */
     public function __construct($keyType)
     {
         // Only valid keyType will be assigned
@@ -27,10 +32,15 @@ class Api
 
         // Set $url
         $this->url = $this->getFormattedUrl($keyType, $_GET);
+
+        return true;
     }
 
     /**
      * Give access to private attributes
+     *
+     * @param  string $attribute
+     * @return mixed
      */
     public function __get($attribute)
     {
@@ -39,10 +49,18 @@ class Api
 
     /**
      * Default function to create an Api instance
+     *
+     * @param  string $keyType
+     * @return bool|(current_classname)
      */
     public static function create($keyType)
     {
         $api = new self($keyType);
+
+        if (!$api || !strlen($api->url)) {
+            // The request was not formatted correctly
+            return false;
+        }
 
         return $api;
     }
