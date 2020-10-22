@@ -13,4 +13,12 @@ class CurlTest extends PHPUnit\Framework\TestCase
 
         $this->assertStringContainsString('<h1>Example Domain</h1>', $curl->result);
     }
+
+    public function testInvalidUrl()
+    {
+        $url = 'https://www.this-is-not-a-domain.com';
+        $curl = new Curl($url);
+
+        $this->assertEquals('', $curl->result);
+    }
 }
