@@ -18,9 +18,10 @@ class Api
      * Constructor, set attributes $keyType, $url
      *
      * @param  string $attribute
+     * @param  array  $fields
      * @return bool
      */
-    public function __construct($keyType)
+    public function __construct($keyType, $fields)
     {
         // Only valid keyType will be assigned
         if (!isset(self::KEY_TYPES[$keyType])) {
@@ -31,7 +32,7 @@ class Api
         $this->keyType = $keyType;
 
         // Set $url
-        $this->url = $this->getFormattedUrl($keyType, $_GET);
+        $this->url = $this->getFormattedUrl($keyType, $fields);
 
         return true;
     }
@@ -48,14 +49,33 @@ class Api
     }
 
     /**
+     * Get api key
+     * Note: Api keys are defined in .env file, format: API_KEY_{$keyType}
+     */
+    public function getApiKey()
+    {
+        $environmentVariableName = 'API_KEY_' . strtoupper($this->keyType);
+        $apiKey = Env::get($environmentVariableName);
+        if ($apiKey) {
+            return $apiKey;
+        }
+
+        // Environment variables may not have been loaded
+        Env::load();
+        $apiKey = Env::get($environmentVariableName);
+        return $apiKey;
+    }
+
+    /**
      * Default function to create an Api instance
      *
      * @param  string $keyType
+     * @param  array  $fields
      * @return bool|(current_classname)
      */
-    public static function create($keyType)
+    public static function create($keyType, $fields)
     {
-        $api = new self($keyType);
+        $api = new self($keyType, $fields);
 
         if (!$api || !strlen($api->url)) {
             // The request was not formatted correctly
@@ -76,9 +96,8 @@ class Api
     {
         $url = self::KEY_TYPES[$keyType];
 
-        // Api keys are defined in .env file, format: API_KEY_{$keyType}
-        Env::load();
-        $url = str_replace('{API_KEY}', $_ENV['API_KEY_' . strtoupper($keyType)], $url);
+        // Insert api key
+        $url = str_replace('{API_KEY}', $this->getApiKey(), $url);
 
         // Insert query string values
         foreach ($fields as $param => $value) {

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/models/Api.php';
+require_once __DIR__ . '/models/Curl.php';
 
 /**
  * Hide api keys from client applications
@@ -12,37 +13,22 @@ require_once __DIR__ . '/models/Api.php';
  *  • Print result as array: https://api.ivan-lim.com?a=dictionary&word=umpire&debug
  */
 
-$apiKeyType = isset($_GET['a']) && strlen($_GET['a']) ? htmlentities($_GET['a'], ENT_QUOTES, 'UTF-8') : '-';
+$apiKeyType = isset($_GET['a']) && strlen($_GET['a']) ? htmlentities($_GET['a'], ENT_QUOTES, 'UTF-8') : '';
 
-$api = Api::create($apiKeyType);
+$api = Api::create($apiKeyType, $_GET);
 
 if (!$api) {
     echo 'Invalid call!';
     exit;
 }
 
-$ch = curl_init();
 
-// Set the url
-curl_setopt($ch, CURLOPT_URL, $api->url);
-
-// We want to just grab the data
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-// Ignore SSL verification
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-// Execute post
-$result = curl_exec($ch);
-
-// Close connection
-curl_close($ch);
+$curl = new Curl($api->url);
 
 // Debug mode
 if (isset($_GET['debug'])) {
     // Convert json data into an array
-    $resultArray = json_decode($result, true);
+    $resultArray = json_decode($curl->result, true);
 
     // Display array
     echo "<pre>";
@@ -56,7 +42,7 @@ header("Content-Type: application/json; charset=UTF-8");
 // Specify which domain can access this page
 // Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
 header("Access-Control-Allow-Origin: https://wordvault.ivan-lim.com", false);
-header("Version: 1.1.2");
+header("Version: 1.1.4");
 
-echo $result;
+echo $curl->result;
 exit;

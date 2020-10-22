@@ -26,6 +26,6 @@ class EnvTest extends PHPUnit\Framework\TestCase
 
     public function testNullIsReturnedIfEnvironmentVariableIsNotFound()
     {
-        $this->assertEquals(null, Env::get('THIS_IS_NOT_A_KEY'));
+        $this->assertSame(null, Env::get('THIS_IS_NOT_A_KEY'));
     }
 }
