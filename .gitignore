@@ -3,9 +3,12 @@
 error_log*
 vendor/*
 *.lock
+tests/*.html
+tests/*.sh
 
 !.gitignore
 !.htaccess
 !.env.example
 !vendor/.htaccess
 !vendor/README.md
+!tests/testPhpUnit.sh

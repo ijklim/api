@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/models/api.php';
+require_once __DIR__ . '/models/Api.php';
 
 /**
  * Hide api keys from client applications
  *
- * Version: 1.0.3
- * Date: 5/15/2020
+ * Version: 1.1.0
+ * Date: 10/22/2020
  *
  * Usage samples:
  *  • Definition of word 'umpire': https://api.ivan-lim.com?a=dictionary&word=umpire

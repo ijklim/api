@@ -8,6 +8,12 @@ An intermediate server to insert api key to http request.
 * Php
 
 
+# Packages
+
+* `phpunit`, added using `composer require --dev phpunit/phpunit`
+* `phpdotenv`, added using `composer require vlucas/phpdotenv`
+
+
 # Deployment on shared hosting
 
 * Run `composer install`
@@ -24,3 +30,10 @@ An intermediate server to insert api key to http request.
 
 * More api end points can be added to array `KEY_TYPES` in `models\api.php`.
 * The `Access-Control-Allow-Origin` setting in `index.php` controls which domain can access the api.
+
+
+# Testing
+
+* Test scripts are in the `tests` folder
+* A sample shell script `tests/testPhpUnit.sh` is included for reference
+* More command-line options can be found at https://phpunit.readthedocs.io/en/9.3/textui.html
