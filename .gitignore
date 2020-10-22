@@ -1,9 +1,11 @@
 .*
 .*/
 error_log*
-vendor/
+vendor/*
 *.lock
 
 !.gitignore
 !.htaccess
 !.env.example
+!vendor/.htaccess
+!vendor/README.md
