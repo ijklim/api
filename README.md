@@ -30,7 +30,6 @@ An intermediate server to insert api key to http request.
   ```
 
 * More api end points can be added to array `KEY_TYPES` in `models\api.php`.
-* The `Access-Control-Allow-Origin` setting in `index.php` controls which domain can access the api.
 
 
 # Testing
