@@ -20,6 +20,7 @@ An intermediate server to insert api key to http request.
 * Upload all files and folders to remote folder on web host, e.g. `/public_html__api`
 * Create a subdomain to point to the folder, e.g. `api.my-domain.com`
 * Specify api keys in `.env` file, samples available in `.env.example`
+* Specify valid domain names that can access api in `.env`
 
 
 # Usage
